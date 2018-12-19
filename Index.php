@@ -125,7 +125,7 @@
 										?>
                                     </tr>
                                     <tr class="text-center d-table-row" style="height: 3vh;font-weight: bold;">
-                                        <td class="text-center bg-secondary border rounded-0 border-dark d-table-cell" colspan="15" style="padding: 2px;">Extra Deck CONSIDER REMOVING</td>
+                                        <td class="text-center bg-secondary border rounded-0 border-dark d-table-cell" colspan="15" style="padding: 2px;">Extra Deck</td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
                                         <?php
@@ -133,7 +133,7 @@
 										?>
                                     </tr>
                                     <!--<tr class="text-center d-table-row" style="height: 3vh;font-weight: bold;">
-                                        <td class="text-center bg-warning border rounded-0 border-dark d-table-cell" colspan="15" style="padding: 2px;">Side Deck CONSIDER REMOVING</td>
+                                        <td class="text-center bg-warning border rounded-0 border-dark d-table-cell" colspan="15" style="padding: 2px;">Side Deck</td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
                                         <?php
@@ -201,8 +201,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 	<script>
-		var mainCurrentCellList = [[],[]];
-		var extraCurrentCellList = [];
+		var mainCurrentCellIds = [];
+		var mainCurrentCellType = [];
+		var mainCurrentCellQty = [];
+		var extraCurrentCellIds = [];
+		var extraCurrentCellType = [];
+		var extraCurrentCellQty = [];
 		var deckList = [[],[]];
 		var currentCellCol = 1;
 		var currentCellRow = 1;
@@ -214,10 +218,57 @@
 		var totalExtra = 0;
 		
 		function updateTotals(){
+			if(totalMonster < 0){
+				totalMonster = 0;
+			}
+			if(totalSpell < 0){
+				totalSpell = 0;
+			}
+			if(totalTrap < 0){
+				totalTrap = 0;
+			}
+			if(totalDeck < 0){
+				totalDeck = 0;
+			}
 			document.getElementById("monsterCount").innerHTML = totalMonster;
 			document.getElementById("spellCount").innerHTML = totalSpell;
 			document.getElementById("trapCount").innerHTML = totalTrap;
 			document.getElementById("totalDeck").innerHTML = totalDeck;
+		}
+		
+		function clearTable(){
+			for(var a = 1; a <= 10; a++){
+				for(var b = 1; b <= 6; b++){
+					document.getElementById("img.row" + b + ".column" + a).className = '';
+					document.getElementById("img.row" + b + ".column" + a).value = '';
+					document.getElementById("img.row" + b + ".column" + a).src = 'images/BlankCardTable.png';
+				}	
+			}
+		}
+		
+		function updateTable(){
+			clearTable();
+			var tempCellCol = 1;
+			var tempCellRow = 1;
+			var uniqueIds = mainCurrentCellIds.length;
+			for(var i = 0; i < uniqueIds; i++){
+				var qty = mainCurrentCellQty[i];
+				for(var j = 0; j < qty; j++){
+					document.getElementById("img.row" + tempCellRow + ".column" + tempCellCol).value = mainCurrentCellIds[i];
+					document.getElementById("img.row" + tempCellRow + ".column" + tempCellCol).classList.add(mainCurrentCellType[i]);
+					document.getElementById("img.row" + tempCellRow + ".column" + tempCellCol).src = "images/" + mainCurrentCellIds[i] + ".jpg";
+					if(tempCellCol == 10){
+						tempCellCol = 1;
+						if (tempCellRow < 6){
+						tempCellRow++;
+						}
+					}else{
+						tempCellCol++;
+					}
+				}
+			}
+			currentCellCol = tempCellCol;
+			currentCellRow = tempCellRow;
 		}
 		
 		function addCard(row, column){
@@ -228,43 +279,133 @@
 			
 			if(currentType.indexOf("Extra") === -1){
 				if(totalDeck < 60){
-					var mainCell = document.getElementById("img.row" + currentCellRow + ".column" + currentCellCol);
-					mainCell.value = currentId;
-					mainCell.src = currentImg;
-					
-					if(currentType.indexOf("Monster") !== -1){
-						totalMonster++;
-					}else if (currentType.indexOf("Spell") !== -1){
-						totalSpell++;
-					}else{
-						totalTrap++;
-					}
-					
-					if(currentCellCol == 10){
-						currentCellCol = 1;
-						if (currentCellRow < 6){
-						currentCellRow++;
+					if(mainCurrentCellIds.indexOf(currentId) == -1){
+						mainCurrentCellIds.push(currentId);
+						mainCurrentCellQty.push(1);
+						
+						var mainCell = document.getElementById("img.row" + currentCellRow + ".column" + currentCellCol);
+						mainCell.value = currentId;
+						mainCell.src = currentImg;
+
+						if(currentType.indexOf("Monster") !== -1){
+							mainCurrentCellType.push("Monster");
+							totalMonster++;
+						}else if (currentType.indexOf("Spell") !== -1){
+							mainCurrentCellType.push("Spell");
+							totalSpell++;
+						}else{
+							mainCurrentCellType.push("Trap");
+							totalTrap++;
 						}
-					}else{
-						currentCellCol++;
+
+						if(currentCellCol == 10){
+							currentCellCol = 1;
+							if (currentCellRow < 6){
+							currentCellRow++;
+							}
+						}else{
+							currentCellCol++;
+						}
+
+						totalDeck++;
+						updateTotals();
+					}else if(mainCurrentCellQty[mainCurrentCellIds.indexOf(currentId)] < 3){
+						mainCurrentCellQty[mainCurrentCellIds.indexOf(currentId)] += 1;
+						
+						var mainCell = document.getElementById("img.row" + currentCellRow + ".column" + currentCellCol);
+						mainCell.value = currentId;
+						mainCell.src = currentImg;
+
+						if(currentType.indexOf("Monster") !== -1){
+							mainCell.classList.add("Monster");
+							totalMonster++;
+						}else if (currentType.indexOf("Spell") !== -1){
+							mainCell.classList.add("Spell");
+							totalSpell++;
+						}else{
+							mainCell.classList.add("Trap");
+							totalTrap++;
+						}
+
+						if(currentCellCol == 10){
+							currentCellCol = 1;
+							if (currentCellRow < 6){
+							currentCellRow++;
+							}
+						}else{
+							currentCellCol++;
+						}
+
+						totalDeck++;
+						updateTotals();
 					}
-					
-					totalDeck++;
-					updateTotals();
 				}
 			}else{
 				if(totalExtra < 15){
-					var extraCell = document.getElementById("img.row7.column" + currentExtraCellCol);
-					extraCell.value = currentId;
-					extraCell.src = currentImg;
+					if(extraCurrentCellIds.indexOf(currentId) == -1){
+						extraCurrentCellIds.push(currentId);
+						extraCurrentCellQty.push(1);
+						
+						var extraCell = document.getElementById("img.row7.column" + currentExtraCellCol);
+						extraCell.value = currentId;
+						extraCell.src = currentImg;
+
+						if(currentExtraCellCol < 15){
+							currentExtraCellCol++;
+						}
+
+						totalExtra++;
+					}else if(extraCurrentCellQty[extraCurrentCellIds.indexOf(currentId)] < 3){
+						extraCurrentCellQty[extraCurrentCellIds.indexOf(currentId)] += 1;
 					
-					if(currentExtraCellCol < 15){
-						currentExtraCellCol++;
+						var extraCell = document.getElementById("img.row7.column" + currentExtraCellCol);
+						extraCell.value = currentId;
+						extraCell.src = currentImg;
+
+						if(currentExtraCellCol < 15){
+							currentExtraCellCol++;
+						}
+						
+						totalExtra++;
 					}
-					
-					totalExtra++;
 				}
+			}	
+		}
+		
+		function removeCard(row, column){
+			var deleteCell = document.getElementById("img.row" + row +".column" + column);
+			var deleteType = deleteCell.classList.item(0);
+			if (row == 7){
+				var arrayIndex = extraCurrentCellIds.indexOf(deleteCell.value);
+				if(extraCurrentCellQty == 1){
+					extraCurrentCellIds.splice(arrayIndex,1);
+					extraCurrentCellQty.splice(arrayIndex,1);
+				}else{
+					extraCurrentCellQty[arrayIndex] -= 1;
+				}
+				
+				totalExtra -= 1;
+			}else{
+				var arrayIndex = mainCurrentCellIds.indexOf(deleteCell.value);
+				if(mainCurrentCellQty == 1){
+					mainCurrentCellIds.splice(arrayIndex,1);
+					mainCurrentCellQty.splice(arrayIndex,1);
+				}else{
+					mainCurrentCellQty[arrayIndex] -= 1;
+				}
+				
+				if(deleteType == "Monster"){
+					totalMonster -= 1;
+				}else if(deleteType == "Spell"){
+					totalSpell -= 1;
+				}else{
+					totalTrap -= 1;
+				}
+				
+				totalDeck -= 1;
+				updateTotals();
 			}
+			updateTable();
 		}
 		
 		$(function(){
@@ -387,7 +528,7 @@
 	function tableCellMaker($rowNumber, $columnsNeeded){
 		for($i = 0; $i < $columnsNeeded; $i++){
 				$columnCount = $i + 1;
-				echo "<td class='text-center border rounded-0 border-dark d-table-cell' style='padding: 2px;width: 1.974%;' id='row$rowNumber.column$columnCount'><input type='image' src='images/BlankCardTable.png' name = 'button.main.img.row$rowNumber.column$columnCount' id='img.row$rowNumber.column$columnCount' value = '' class='' style='width: 80%;height: 9.8vh;'></td>";
+				echo "<td class='text-center border rounded-0 border-dark d-table-cell' style='padding: 2px;width: 1.974%;' id='row$rowNumber.column$columnCount'><input type='image' src='images/BlankCardTable.png' name = 'button.main.img.row$rowNumber.column$columnCount' id='img.row$rowNumber.column$columnCount' value = '' class='' onClick='return removeCard($rowNumber, $columnCount)' style='width: 80%;height: 9.8vh;'></td>";
 			}
 		}
 	?>
