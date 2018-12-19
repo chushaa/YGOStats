@@ -27,21 +27,21 @@
             <div class="collapse navbar-collapse float-right" id="navcol-1" style="width: 50%;">
 				<?php
 				if($userType == "Admin"){
-					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
+					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' onClick='return newTable()' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
 					<button class='btn btn-primary text-center d-block float-right'
                     type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
 					<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
                 	<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
 					<button class='btn btn-primary active text-center d-block float-right' data-target='#AdminModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>$userName</button>";
 				}elseif($userType == "Basic"){
-					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
+					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' onClick='return newTable()' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
 					<button class='btn btn-primary text-center d-block float-right'
                     type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
 					<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
                 	<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
 					<button class='btn btn-primary active text-center d-block float-right' data-target='#logOutModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>$userName</button>";
 				}else{
-					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' disabled='disabled' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
+					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' onClick='return newTable()' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
 					<button class='btn btn-primary text-center d-block float-right'
                     type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
 					<button class='btn btn-primary text-center d-block float-right' type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
@@ -306,6 +306,7 @@
 				</div>
 				<div class='modal-body' style='align-items: center;'>
 					<form action='signout.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
+						<button class='btn btn-primary btn-block' formaction='update.php' type='submit'>Update Database</button>
 						<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
 					</form>
 				</div>
@@ -409,6 +410,26 @@
 			currentCellRow = tempCellRow;
 			currentExtraCellCol = tempExtraCellCol;
 		}
+		
+		function newTable(){
+			mainCurrentCellIds = [];
+			mainCurrentCellType = [];
+			mainCurrentCellQty = [];
+			extraCurrentCellIds = [];
+			extraCurrentCellType = [];
+			extraCurrentCellQty = [];
+			deckList = [[],[]];
+			currentCellCol = 1;
+			currentCellRow = 1;
+			currentExtraCellCol = 1;
+			totalMonster = 0;
+			totalSpell = 0;
+			totalTrap = 0;
+			totalDeck = 0;
+			totalExtra = 0;
+			clearTable();
+			updateTotals();
+			}
 		
 		function addCard(row, column){
 			var currentCell = document.getElementById("search.img.row" + row +".column" + column);
