@@ -78,16 +78,16 @@
 										<?php
 											tableCellMaker(1,10);
 										?>
-                                        <td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;">Percentage of Seeing on Turn 1:</td>
+                                        <td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;">Percentage of Seeing on Turn 1</td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
-										<td class="text-center d-table-cell" style="padding: 2px;font-size: 36px;font-weight: bold;text-align: center">
+										<td class="text-center d-table-cell" style="padding: 2px;font-size: 42px;font-weight: bold;text-align: center">
 											<p id="monsterCount">0</p>
 										</td>
                                         <?php
 											tableCellMaker(2,10);
 										?>
-										<td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 36px;font-weight: bold;">
+										<td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 42px;font-weight: bold;">
 											<p id="percentage"></p>
 										</td>
                                     </tr>
@@ -96,24 +96,28 @@
                                         <?php
 											tableCellMaker(3,10);
 										?>
-										<td class="text-center d-table-cell" rowspan="4" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;"></td>
+										<td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;">Total Deck Size</td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
-										<td class="text-center d-table-cell" style="padding: 2px;font-weight: bold;font-size: 36px;text-align: center">
+										<td class="text-center d-table-cell" style="padding: 2px;font-weight: bold;font-size: 42px;text-align: center">
 											<p id="spellCount">0</p>
 										</td>
                                         <?php
 											tableCellMaker(4,10);
 										?>
+										<td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 42px;font-weight: bold;">
+											<p id="totalDeck">0</p>
+										</td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
                                         <td class="text-center d-table-cell" style="padding: 2px;font-weight: bold;text-align: center">Trap Count</td>
                                         <?php
 											tableCellMaker(5,10);
 										?>
+										<td class="text-center d-table-cell" rowspan="2" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;"></td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
-										<td class="text-center d-table-cell" style="padding: 2px;font-weight: bold;font-size: 36px;text-align: center">
+										<td class="text-center d-table-cell" style="padding: 2px;font-weight: bold;font-size: 42px;text-align: center">
 											<p id="trapCount">0</p>
 										</td>
                                         <?php
@@ -178,10 +182,10 @@
 										for($w = 0; $w < 4; $w++){
 											$rowCount = $w + 1;
 											echo "<tr class='d-table-row'>
-                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column1'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column1' id='search.img.row$rowCount.column1' value = '' class='' style='width: 100%;height: 9.8vh;'></td>
-                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column2'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column2' id='search.img.row$rowCount.column2' value = '' class='' style='width: 100%;height: 9.8vh;'></td>
-                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column3'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column3' id='search.img.row$rowCount.column3' value = '' class='' style='width: 100%;height: 9.8vh;'></td>
-                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column4'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column4' id='search.img.row$rowCount.column4' value = '' class='' style='width: 100%;height: 9.8vh;'></td>
+                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column1'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column1' id='search.img.row$rowCount.column1' value = '' class='' onClick='return addCard($rowCount, 1)' style='width: 100%;height: 9.8vh;'></td>
+                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column2'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column2' id='search.img.row$rowCount.column2' value = '' class='' onClick='return addCard($rowCount, 2)' style='width: 100%;height: 9.8vh;'></td>
+                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column3'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column3' id='search.img.row$rowCount.column3' value = '' class='' onClick='return addCard($rowCount, 3)' style='width: 100%;height: 9.8vh;'></td>
+                                        			<td class='border rounded-0 border-dark d-table-cell' style='width: 3.25%;height: 9.4vh;' id='search.row$rowCount.column4'><input type='image' src='images/BlankCardTable.png' name = 'button.img.row$rowCount.column4' id='search.img.row$rowCount.column4' value = '' class='' onClick='return addCard($rowCount, 4)' style='width: 100%;height: 9.8vh;'></td>
 												</tr>";
 										}
 									?>
@@ -197,8 +201,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 	<script>
-		var mainCurrentCell = [[],[]];
+		var mainCurrentCellList = [[],[]];
+		var extraCurrentCellList = [];
 		var deckList = [[],[]];
+		var currentCellCol = 1;
+		var currentCellRow = 1;
+		var currentExtraCellCol = 1;
+		var totalMonster = 0;
+		var totalSpell = 0;
+		var totalTrap = 0;
+		var totalDeck = 0;
+		var totalExtra = 0;
+		
+		function updateTotals(){
+			document.getElementById("monsterCount").innerHTML = totalMonster;
+			document.getElementById("spellCount").innerHTML = totalSpell;
+			document.getElementById("trapCount").innerHTML = totalTrap;
+			document.getElementById("totalDeck").innerHTML = totalDeck;
+		}
+		
+		function addCard(row, column){
+			var currentCell = document.getElementById("search.img.row" + row +".column" + column);
+			var currentId = currentCell.value;
+			var currentImg = currentCell.src;
+			var currentType = currentCell.classList.item(1);
+			
+			if(currentType.indexOf("Extra") === -1){
+				if(totalDeck < 60){
+					var mainCell = document.getElementById("img.row" + currentCellRow + ".column" + currentCellCol);
+					mainCell.value = currentId;
+					mainCell.src = currentImg;
+					
+					if(currentType.indexOf("Monster") !== -1){
+						totalMonster++;
+					}else if (currentType.indexOf("Spell") !== -1){
+						totalSpell++;
+					}else{
+						totalTrap++;
+					}
+					
+					if(currentCellCol == 10){
+						currentCellCol = 1;
+						if (currentCellRow < 6){
+						currentCellRow++;
+						}
+					}else{
+						currentCellCol++;
+					}
+					
+					totalDeck++;
+					updateTotals();
+				}
+			}else{
+				if(totalExtra < 15){
+					var extraCell = document.getElementById("img.row7.column" + currentExtraCellCol);
+					extraCell.value = currentId;
+					extraCell.src = currentImg;
+					
+					if(currentExtraCellCol < 15){
+						currentExtraCellCol++;
+					}
+					
+					totalExtra++;
+				}
+			}
+		}
 		
 		$(function(){
 			var optionsList = {
@@ -273,6 +340,8 @@
 							
 							var currentResult = 0;
 							var monsterCheck = "Monster";
+							var spellCheck = "Spell";
+							var trapCheck = "Trap";
 							var listOfExtraDeckTypes = ["Fusion", "Synchro", "XYZ", "Link"];
 							var checkExtra = 0;
 							
@@ -294,10 +363,12 @@
 											}
 										}
 										if(checkExtra == 0){
-											actualSlot = "MainDeck";
+											actualSlot = "MainDeckMonster";
 										}
+									}else if (deckSlot.indexOf(spellCheck) !== -1){
+										actualSlot = "MainDeckSpell";
 									}else{
-										actualSlot = "MainDeck"
+										actualSlot = "MainDeckTrap";
 									}
 
 									document.getElementById(currentCell).value = currentId;
@@ -311,15 +382,11 @@
 				});
 			});
 		});
-		
-		
 	</script>
 	<?php
 	function tableCellMaker($rowNumber, $columnsNeeded){
 		for($i = 0; $i < $columnsNeeded; $i++){
 				$columnCount = $i + 1;
-				/*echo "<td class='text-center border rounded-0 border-dark d-table-cell' style='padding: 2px;width: 1.974%;' id='row$rowNumber.column$columnCount'><button value = '' id='button.img.row$rowNumber.column$columnCount'><img src='images/BlankCardTable.png' id='img.row$rowNumber.column$columnCount' style='width: 80%;height: 9.8vh;'></button></td>";*/
-			
 				echo "<td class='text-center border rounded-0 border-dark d-table-cell' style='padding: 2px;width: 1.974%;' id='row$rowNumber.column$columnCount'><input type='image' src='images/BlankCardTable.png' name = 'button.main.img.row$rowNumber.column$columnCount' id='img.row$rowNumber.column$columnCount' value = '' class='' style='width: 80%;height: 9.8vh;'></td>";
 			}
 		}
