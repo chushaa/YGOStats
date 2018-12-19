@@ -1,7 +1,7 @@
 <?php
-include 'classes/Card.php'; //Database Connection
+include 'classes/Card.php';
 $card = new Card();
-session_start(); //Start the session
+session_start();
 
 if(isset($_POST['username']))
 { 

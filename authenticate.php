@@ -1,7 +1,7 @@
 <?php
-include 'classes/Card.php'; //Database Connection
+include 'classes/Card.php';
 $card = new Card();
-session_start(); //Start the session
+session_start();
 
 if(isset($_POST['username']))
 { $username = $card->escape_string($_POST['username']); }
@@ -12,7 +12,6 @@ if(isset($_POST['password']))
 	$crypt_pass = crypt($password, '$2a$07$YourSaltIsA22ChrString$');
 }
 
-//Check wheter the entered username/password pair exists in the Database
 $checkQuery = "SELECT * FROM USER WHERE USER_NAME='$username' AND USER_PASSWORD='$crypt_pass'";
 $result= count($card->getData($checkQuery));
 

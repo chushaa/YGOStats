@@ -7,11 +7,6 @@ class DbConfig
 	private $_pass         = 'V$Ja}Cak';
 	private $_database	   = 'rcunitti_FinalProject';
 	
-	/*private $_host         = 'localhost';
-	private $_user         = 'root';
-	private $_pass         = '';
-	private $_database	   = 'ygostats';*/
-	
 	protected $connection;
 	
 	public function __construct()

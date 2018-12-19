@@ -28,22 +28,19 @@
 				<?php
 				if($userType == "Admin"){
 					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' onClick='return newTable()' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
-					<button class='btn btn-primary text-center d-block float-right'
-                    type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
-					<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
-                	<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
+					<button class='btn btn-primary text-center d-block float-right openButton' type='button' data-target='#openModal' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
+					<button class='btn btn-primary text-center d-block float-right saveButton' type='button' data-target='#saveModal' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
+                	<button class='btn btn-primary text-center d-block float-right deleteButton' type='button' data-target='#deleteModal' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
 					<button class='btn btn-primary active text-center d-block float-right' data-target='#AdminModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>$userName</button>";
 				}elseif($userType == "Basic"){
 					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' onClick='return newTable()' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
-					<button class='btn btn-primary text-center d-block float-right'
-                    type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
-					<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
-                	<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
+					<button class='btn btn-primary text-center d-block float-right openButton' type='button' data-target='#openModal' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
+					<button class='btn btn-primary text-center d-block float-right saveButton' type='button' data-target='#saveModal' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
+                	<button class='btn btn-primary text-center d-block float-right deleteButton' type='button' data-target='#deleteModal' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
 					<button class='btn btn-primary active text-center d-block float-right' data-target='#logOutModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>$userName</button>";
 				}else{
 					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' onClick='return newTable()' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
-					<button class='btn btn-primary text-center d-block float-right'
-                    type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
+					<button class='btn btn-primary text-center d-block float-right' type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
 					<button class='btn btn-primary text-center d-block float-right' type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
                 	<button class='btn btn-primary text-center d-block float-right' type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
 					<button class='btn btn-primary active text-center d-block float-right' data-target='#logInModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>Log In</button>";
@@ -142,7 +139,9 @@
                                         <?php
 											tableCellMaker(5,10);
 										?>
-										<td class="text-center d-table-cell" rowspan="2" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;"></td>
+										<td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;">
+											<input type="hidden" id="deckId" value="None">
+										</td>
                                     </tr>
                                     <tr class="d-table-row" style="height: 9.8vh;">
 										<td class="text-center d-table-cell" style="padding: 2px;font-weight: bold;font-size: 42px;text-align: center">
@@ -151,6 +150,7 @@
                                         <?php
 											tableCellMaker(6,10);
 										?>
+										<td class="text-center d-table-cell" colspan="2" style="padding: 2px;font-size: 24px;font-weight: bold;"></td>
                                     </tr>
                                     <tr class="text-center d-table-row" style="height: 3vh;font-weight: bold;">
                                         <td class="text-center bg-secondary border rounded-0 border-dark d-table-cell" colspan="15" style="padding: 2px;">Extra Deck</td>
@@ -295,8 +295,62 @@
 			</div>
 		</div>
 	</div>
-	
 	<?php
+	if($userType == "Basic" || $userType == "Admin"){
+		echo "<div id = 'openModal' class='modal fade' role='dialog'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Open</h4>
+					</div>
+					<div class='modal-body openModalBody' style='align-items: center;'>
+						<form action='open.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
+							<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
+						</form>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+					</div>
+				</div>
+			</div>
+		</div>";
+
+		echo "<div id = 'saveModal' class='modal fade' role='dialog'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Save</h4>
+					</div>
+					<div class='modal-body saveModalBody' style='align-items: center;'>
+						<form action='' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
+							<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
+						</form>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+					</div>
+				</div>
+			</div>
+		</div>";
+		
+		echo "<div id = 'deleteModal' class='modal fade' role='dialog'>
+			<div class='modal-dialog'>
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Delete</h4>
+					</div>
+					<div class='modal-body deleteModalBody' style='align-items: center;'>
+						<form action='delete.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
+							<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
+						</form>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+					</div>
+				</div>
+			</div>
+		</div>";
+	}
 	if($userType == "Admin"){
 		echo "<div id = 'AdminModal' class='modal fade' role='dialog'>
 		<div class='modal-dialog'>
@@ -328,7 +382,6 @@
 		var extraCurrentCellIds = [];
 		var extraCurrentCellType = [];
 		var extraCurrentCellQty = [];
-		var deckList = [[],[]];
 		var currentCellCol = 1;
 		var currentCellRow = 1;
 		var currentExtraCellCol = 1;
@@ -418,7 +471,6 @@
 			extraCurrentCellIds = [];
 			extraCurrentCellType = [];
 			extraCurrentCellQty = [];
-			deckList = [[],[]];
 			currentCellCol = 1;
 			currentCellRow = 1;
 			currentExtraCellCol = 1;
@@ -683,6 +735,25 @@
 								}
 							}
 						}
+					}
+				});
+			});
+		});
+		
+		$(document).ready(function(){
+			$('.saveButton').click(function(){
+				var deckId = document.getElementById('deckId').value;
+				var mainDeckSize = totalDeck;
+				var extraDeckSize = totalExtra;
+				var deckList = mainCurrentCellIds;
+				var deckQtyList = mainCurrentCellQty;
+				$.ajax({
+				url: 'save.php',
+				type: 'post',
+				data: {deckId: deckId, mainDeckSize: mainDeckSize, extraDeckSize: extraDeckSize, deckList: deckList, deckQtyList, deckQtyList},
+				success: function(response, list){
+					$('.saveModalBody').html(response);
+					$('#saveModal').modal('show');
 					}
 				});
 			});
