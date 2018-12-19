@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<?php
+	session_start();
+	/*$_SESSION['sess_user_id'] = "";
+	$_SESSION['sess_username'] = "";
+	$_SESSION['sess_userrole'] = "";*/
+	
+	$userId = $_SESSION['sess_user_id'];
+	$userName = $_SESSION['sess_username'];
+	$userType = $_SESSION['sess_userrole'];
+?>
 <html>
 <head>
     <meta charset="utf-8">
@@ -15,12 +25,30 @@
 				<img class="img-fluid" src="assets/img/Final%20Project%20Logo.png" style="max-width: 201px;width: 100%;height: 8.4vh;">
 			</a>
             <div class="collapse navbar-collapse float-right" id="navcol-1" style="width: 50%;">
-				<button class="btn btn-primary text-center d-block float-right ml-auto" type="button" disabled="disabled" style="height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;">New</button>
-				<button class="btn btn-primary text-center d-block float-right"
-                    type="button" disabled="disabled" style="width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;">Open</button>	
-				<button class="btn btn-primary text-center d-block float-right" type="button" disabled="disabled" style="width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;">Save</button>
-                <button class="btn btn-primary text-center d-block float-right" type="button" disabled="disabled" style="width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;">Delete</button>
-				<button class="btn btn-primary active text-center d-block float-right" type="button" style="width: 15.2%;height: 45px;margin-bottom: 25px;">Log In</button>
+				<?php
+				if($userType == "Admin"){
+					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
+					<button class='btn btn-primary text-center d-block float-right'
+                    type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
+					<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
+                	<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
+					<button class='btn btn-primary active text-center d-block float-right' data-target='#AdminModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>$userName</button>";
+				}elseif($userType == "Basic"){
+					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
+					<button class='btn btn-primary text-center d-block float-right'
+                    type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
+					<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
+                	<button class='btn btn-primary text-center d-block float-right' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
+					<button class='btn btn-primary active text-center d-block float-right' data-target='#logOutModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>$userName</button>";
+				}else{
+					echo "<button class='btn btn-primary text-center d-block float-right ml-auto' type='button' disabled='disabled' style='height: 45px;width: 15.2%;padding-right: 12px;margin-right: 12px;margin-bottom: 25px;'>New</button>
+					<button class='btn btn-primary text-center d-block float-right'
+                    type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Open</button>	
+					<button class='btn btn-primary text-center d-block float-right' type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Save</button>
+                	<button class='btn btn-primary text-center d-block float-right' type='button' disabled='disabled' style='width: 15.2%;height: 45px;margin-bottom: 25px;margin-right: 12px;'>Delete</button>
+					<button class='btn btn-primary active text-center d-block float-right' data-target='#logInModal' data-toggle='modal' type='button' style='width: 15.2%;height: 45px;margin-bottom: 25px;'>Log In</button>";
+				}
+				?>
 			</div>
         </div>
     </nav>
@@ -198,6 +226,98 @@
             </tbody>
         </table>
     </div>
+	
+	<div id = "logInModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Log In</h4>
+				</div>
+				<div class="modal-body" style="align-items: center;">
+					<?php
+					$errors = array( 1 => "Invalid user name or password, Try again",
+						2 => "Please login to access this area" );
+					if(isset($_GET['err'])){
+						$error_id = $_GET['err'];	
+					}else{
+						$error_id = 0;
+					}
+					if ( $error_id == 1 ) {
+						echo '<p class="text-danger">' . $errors[ $error_id ] . '</p>';
+					} elseif ( $error_id == 2 ) {
+						echo '<p class="text-danger">' . $errors[ $error_id ] . '</p>';
+					}
+					?>
+					<form action="authenticate.php" method="POST" class="form-signin col-md-8 col-md-offset-2" role="form">
+						<table class="table-responsive" style="align-items: center;">
+							<tr>
+								<td colspan="2">
+									<input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<input type="password" name="password" class="form-control" placeholder="Password" required>	
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<button class="btn btn-primary btn-block" type="submit">Log In</button>
+								</td>
+								<td>
+									<button class="btn btn-primary btn-block" type="submit" formaction="signup.php">Sign up</button>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id = "logOutModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">User Panel</h4>
+				</div>
+				<div class="modal-body" style="align-items: center;">
+					<form action="signout.php" method="POST" class="form-signin col-md-8 col-md-offset-2" role="form">
+						<button class="btn btn-primary btn-block" type="submit">Sign Out</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<?php
+	if($userType == "Admin"){
+		echo "<div id = 'AdminModal' class='modal fade' role='dialog'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h4 class='modal-title'>Admin Panel</h4>
+				</div>
+				<div class='modal-body' style='align-items: center;'>
+					<form action='signout.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
+						<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
+					</form>
+				</div>
+				<div class='modal-footer'>
+					<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			</div>
+		</div>
+	</div>";
+	}
+	?>
+</body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 	<script>
@@ -239,18 +359,25 @@
 		function clearTable(){
 			for(var a = 1; a <= 10; a++){
 				for(var b = 1; b <= 6; b++){
-					document.getElementById("img.row" + b + ".column" + a).className = '';
+					$("#img.row" + b + ".column" + a).removeClass();
 					document.getElementById("img.row" + b + ".column" + a).value = '';
 					document.getElementById("img.row" + b + ".column" + a).src = 'images/BlankCardTable.png';
 				}	
 			}
+			for(var c = 1; c <= 15; c++){
+					$("#img.row7.column" + c).removeClass();
+					document.getElementById("img.row7.column" + c).value = '';
+					document.getElementById("img.row7.column" + c).src = 'images/BlankCardTable.png';
+				}
 		}
 		
 		function updateTable(){
 			clearTable();
 			var tempCellCol = 1;
 			var tempCellRow = 1;
+			var tempExtraCellCol = 1;
 			var uniqueIds = mainCurrentCellIds.length;
+			var extraUniqueIds = extraCurrentCellIds.length;
 			for(var i = 0; i < uniqueIds; i++){
 				var qty = mainCurrentCellQty[i];
 				for(var j = 0; j < qty; j++){
@@ -267,8 +394,20 @@
 					}
 				}
 			}
+			for(var k = 0; k < extraUniqueIds; k++){
+				var extraQty = extraCurrentCellQty[k];
+				for(var l = 0; l < extraQty; l++){
+					document.getElementById("img.row7.column" + tempExtraCellCol).value = extraCurrentCellIds[k];
+					document.getElementById("img.row7.column" + tempExtraCellCol).src = "images/" + extraCurrentCellIds[k] + ".jpg";
+					
+					if(tempExtraCellCol < 15){
+						tempExtraCellCol++;
+					}
+				}
+			}
 			currentCellCol = tempCellCol;
 			currentCellRow = tempCellRow;
+			currentExtraCellCol = tempExtraCellCol;
 		}
 		
 		function addCard(row, column){
@@ -309,6 +448,7 @@
 
 						totalDeck++;
 						updateTotals();
+						updateTable();
 					}else if(mainCurrentCellQty[mainCurrentCellIds.indexOf(currentId)] < 3){
 						mainCurrentCellQty[mainCurrentCellIds.indexOf(currentId)] += 1;
 						
@@ -338,6 +478,7 @@
 
 						totalDeck++;
 						updateTotals();
+						updateTable();
 					}
 				}
 			}else{
@@ -355,6 +496,7 @@
 						}
 
 						totalExtra++;
+						updateTable();
 					}else if(extraCurrentCellQty[extraCurrentCellIds.indexOf(currentId)] < 3){
 						extraCurrentCellQty[extraCurrentCellIds.indexOf(currentId)] += 1;
 					
@@ -367,9 +509,10 @@
 						}
 						
 						totalExtra++;
+						updateTable();
 					}
 				}
-			}	
+			}
 		}
 		
 		function removeCard(row, column){
@@ -377,7 +520,7 @@
 			var deleteType = deleteCell.classList.item(0);
 			if (row == 7){
 				var arrayIndex = extraCurrentCellIds.indexOf(deleteCell.value);
-				if(extraCurrentCellQty == 1){
+				if(extraCurrentCellQty[arrayIndex] == 1){
 					extraCurrentCellIds.splice(arrayIndex,1);
 					extraCurrentCellQty.splice(arrayIndex,1);
 				}else{
@@ -387,7 +530,7 @@
 				totalExtra -= 1;
 			}else{
 				var arrayIndex = mainCurrentCellIds.indexOf(deleteCell.value);
-				if(mainCurrentCellQty == 1){
+				if(mainCurrentCellQty[arrayIndex] == 1){
 					mainCurrentCellIds.splice(arrayIndex,1);
 					mainCurrentCellQty.splice(arrayIndex,1);
 				}else{
@@ -532,5 +675,4 @@
 			}
 		}
 	?>
-</body>
 </html>
