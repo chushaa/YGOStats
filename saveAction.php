@@ -19,14 +19,12 @@
 		$query = "INSERT INTO DECK(DECK_NAME, DECK_SIZE, DECK_DESCRIPTION, USER_ID) VALUES('$deckName','$deckSize','$deckDescription','$userId')";
 		$result = $card->execute($query);
 		
-		$findDeckIdQuery = "SELECT * FROM DECK WHERE DECK_NAME='$deckName' AND DECK_DESCRIPTION='$deckDescription', AND USER_ID='$userId'";
+		$findDeckIdQuery = "SELECT * FROM DECK WHERE DECK_NAME='$deckName' AND DECK_DESCRIPTION='$deckDescription' AND USER_ID='$userId'";
 		
 		$finder = $card->getData($findDeckIdQuery);
 		
-		foreach ($finder as $find){
-			$newDeckId = $find['DECK_ID'];
-		}
-
+		$newDeckId = $finder[0]['DECK_ID'];
+		
 		for($i = 0; $i < $deckCount; $i++){
 			$specificQuery = "INSERT INTO CARD_DECK(CARD_ID, QUANTITY, DECK_ID) VALUES('$deckList[$i]','$deckQtyList[$i]','$newDeckId')";
 			$res = $card->execute($specificQuery);
