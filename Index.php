@@ -334,6 +334,11 @@
 						<h4 class='modal-title'>Delete</h4>
 					</div>
 					<div class='modal-body deleteModalBody' style='align-items: center;'>
+						<form action = 'delete.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
+							<label>Are you sure you want to delete this deck?</label>
+							<button class='btn btn-danger btn-block' type='submit'>Delete</button>
+							<input type='hidden' id='deckDeleteId' value=''>
+						</form>
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
@@ -783,9 +788,19 @@
 					mainCurrentCellQty.push(tempArray[i].QUANTITY);
 				}
 				updateTable();
+				document.getElementById("deckId").value = deckChoice;
 			}
 			});
 		}
+		
+		$(document).ready(function(){
+			$('.deleteButton').click(function(){
+				if(document.getElementById("deckId").value != "None"){
+					document.getElementById("deckDeleteId").value = document.getElementById("deckId").value;
+					$('#deleteModal').modal('show');
+				}
+			});
+		});
 	</script>
 	<?php
 	function tableCellMaker($rowNumber, $columnsNeeded){
