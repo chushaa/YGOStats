@@ -304,9 +304,6 @@
 						<h4 class='modal-title'>Open</h4>
 					</div>
 					<div class='modal-body openModalBody' style='align-items: center;'>
-						<form action='open.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
-							<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
-						</form>
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
@@ -322,9 +319,6 @@
 						<h4 class='modal-title'>Save</h4>
 					</div>
 					<div class='modal-body saveModalBody' style='align-items: center;'>
-						<form action='' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
-							<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
-						</form>
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
@@ -340,9 +334,6 @@
 						<h4 class='modal-title'>Delete</h4>
 					</div>
 					<div class='modal-body deleteModalBody' style='align-items: center;'>
-						<form action='delete.php' method='POST' class='form-signin col-md-8 col-md-offset-2' role='form'>
-							<button class='btn btn-primary btn-block' type='submit'>Sign Out</button>
-						</form>
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
@@ -752,13 +743,49 @@
 				url: 'save.php',
 				type: 'post',
 				data: {deckId: deckId, mainDeckSize: mainDeckSize, extraDeckSize: extraDeckSize, deckList: deckList, deckTypeList: deckTypeList, deckQtyList, deckQtyList},
-				success: function(response, list){
+				success: function(response){
 					$('.saveModalBody').html(response);
 					$('#saveModal').modal('show');
 					}
 				});
 			});
 		});
+		
+		$(document).ready(function(){
+			$('.openButton').click(function(){
+				$.ajax({
+				url: 'open.php',
+				type: 'post',
+				success: function(response){
+					$('.openModalBody').html(response);
+					$('#openModal').modal('show');
+					}
+				});
+			});
+		});
+		
+		function openAction(){
+			var deckChoice = document.getElementById("deckName").value;
+			var tempArray = new Array();
+			var tempId = new Array();
+			var tempType = new Array();
+			var tempQty = new Array();
+			$.ajax({
+			url: 'openAction.php',
+			type: 'post',
+			data: {deckChoice: deckChoice},
+			success: function(response){
+				tempArray = JSON.parse(response);
+				newTable();
+				for(var i = 0; i < tempArray.length; i++){
+					mainCurrentCellIds.push(tempArray[i].CARD_ID);
+					mainCurrentCellType.push(tempArray[i].TYPE);
+					mainCurrentCellQty.push(tempArray[i].QUANTITY);
+				}
+				updateTable();
+			}
+			});
+		}
 	</script>
 	<?php
 	function tableCellMaker($rowNumber, $columnsNeeded){
