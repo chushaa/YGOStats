@@ -9,6 +9,7 @@
 	$extraDeckSize = $_POST['extraDeckSize'];
 	$deckSize = $mainDeckSize + $extraDeckSize;
 	$_SESSION['current_list'] = $_POST['deckList'];
+	$_SESSION['current_type_list'] = $_POST['deckTypeList'];
 	$_SESSION['current_qty_list'] = $_POST['deckQtyList'];
 	
 	if($deckId == "None"){

@@ -746,11 +746,12 @@
 				var mainDeckSize = totalDeck;
 				var extraDeckSize = totalExtra;
 				var deckList = mainCurrentCellIds;
+				var deckTypeList = mainCurrentCellType;
 				var deckQtyList = mainCurrentCellQty;
 				$.ajax({
 				url: 'save.php',
 				type: 'post',
-				data: {deckId: deckId, mainDeckSize: mainDeckSize, extraDeckSize: extraDeckSize, deckList: deckList, deckQtyList, deckQtyList},
+				data: {deckId: deckId, mainDeckSize: mainDeckSize, extraDeckSize: extraDeckSize, deckList: deckList, deckTypeList: deckTypeList, deckQtyList, deckQtyList},
 				success: function(response, list){
 					$('.saveModalBody').html(response);
 					$('#saveModal').modal('show');
